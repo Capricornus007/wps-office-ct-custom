@@ -86,6 +86,31 @@ package_wps-office-ct-custom() {
   # 清理老舊相容性崩潰在庫 (同時相容兩種架構下的 office6 位置)
   rm -f "${pkgdir}${_bin_path}/libcrypto.so"* 2>/dev/null || true
   rm -f "${pkgdir}/opt/apps/cn.wps.wps-office-pro/files/kingsoft/wps-office/office6/libstdc++.so.6"* 2>/dev/null || true
+  # 預埋教育版完美授權配置，實現首次啟動即免啟用、免彈窗
+  msg "正在預埋免啟用全域設定檔..."
+
+  # 建立系統使用者預設配置目錄（Arch 標準路徑）
+  mkdir -p "${pkgdir}/etc/skel/.config/Kingsoft"
+
+  # 寫入 AuthInfo 完美過期時間
+  cat << 'EOF' > "${pkgdir}/etc/skel/.config/Kingsoft/AuthInfo.conf"
+[AuthInfo]
+fld=0
+ted=aa:8f:27:57
+EOF
+
+  # 寫入 WPSCloud 企業/授權強行宣告
+  cat << 'EOF' > "${pkgdir}/etc/skel/.config/Kingsoft/WPSCloud.conf"
+[General]
+specific_companyintro=true
+guestAccount=false
+
+[Nse]
+IsEnterprise=1
+
+[license]
+isLicensed=true
+EOF
 
   msg "WPS 主程式包 [${CARCH}] 建置完成！"
 }
