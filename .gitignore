@@ -1,0 +1,18 @@
+# 排除解壓與編譯臨時目錄
+/src/
+/pkg/
+/deb-extract/
+
+# 排除編譯生成的二進位軟體包
+*.pkg.tar.zst
+*.pkg.tar.xz
+*.pkg.tar.gz
+
+# 排除下載的原生大檔案 (deb / rpm / tar)
+*.deb
+*.rpm
+*.tar.*
+
+# 排除核心轉儲與日誌
+core
+*.log
