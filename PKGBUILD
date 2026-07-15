@@ -21,7 +21,7 @@ sha256sums_aarch64=('44120fe568c6802b530d5124437504680c8c97b42b6aef9bd2b357e3c81
 prepare() {
   msg "正在根據架構 [${CARCH}] 解壓對應的 DEB 核心結構..."
   mkdir -p "${srcdir}/deb-extract"
-  
+
   # 根據當前編譯架構，動態解壓對應的 data.tar.xz
   # $srcdir 會自動指向當前架構下載/放置的 data.tar.xz
   if [ -f "${srcdir}/data.tar.xz" ]; then
@@ -91,26 +91,6 @@ package_wps-office-ct-custom() {
 
   # 建立系統使用者預設配置目錄（Arch 標準路徑）
   mkdir -p "${pkgdir}/etc/skel/.config/Kingsoft"
-
-  # 寫入 AuthInfo 完美過期時間
-  cat << 'EOF' > "${pkgdir}/etc/skel/.config/Kingsoft/AuthInfo.conf"
-[AuthInfo]
-fld=0
-ted=aa:8f:27:57
-EOF
-
-  # 寫入 WPSCloud 企業/授權強行宣告
-  cat << 'EOF' > "${pkgdir}/etc/skel/.config/Kingsoft/WPSCloud.conf"
-[General]
-specific_companyintro=true
-guestAccount=false
-
-[Nse]
-IsEnterprise=1
-
-[license]
-isLicensed=true
-EOF
 
   msg "WPS 主程式包 [${CARCH}] 建置完成！"
 }
